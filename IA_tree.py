@@ -27,17 +27,14 @@ st.title('Vai ter jogo ?') #Título para a página
 tempo = st.selectbox("Tempo: ",['Chuvoso','Ensolarado','Nublado'])
 vento = st.selectbox("Vento: ",['Sim',"Não"])
 umidade = st.slider("Umidade: ",0,100,50)
-temperatura = st.number_input("Temperatura: ",-50,50,20)
+temperatura = st.number_input("Temperatura: ",-10,50,20)
 st.metric(label='Umidade', value=f'{umidade} %')
 st.metric(label='Temperatura', value=f'{temperatura} °C')
-
-
-
-
 
 alvo = 'Jogo' #variável alvo
 quali = ['Tempo', 'Vento'] #Variáveis qualitativas
 quant = ['Temperatura', 'Umidade'] #Variáveis quantitativas
+
 
 
 
@@ -52,13 +49,14 @@ arv = tree.DecisionTreeClassifier() #árvore de decisão
 # Gere a árvore
 arv.fit(dfWork, target) #cria a árvore
 
-# Visualize a árvore (passo não obrigatório)
-dot_data = tree.export_graphviz(arv, 
-feature_names=dfWork.columns,  #variáveis
-class_names=arv.classes_,      #valores dos resultados
-out_file=None,                 #Arquivo de saída
-#configurações dos nós
-filled=True, rounded=True,     
-special_characters=True)  
-graph = graphviz.Source(dot_data)  
-graph
+
+# # Visualize a árvore (passo não obrigatório)
+# dot_data = tree.export_graphviz(arv, 
+# feature_names=dfWork.columns,  #variáveis
+# class_names=arv.classes_,      #valores dos resultados
+# out_file=None,                 #Arquivo de saída
+# #configurações dos nós
+# filled=True, rounded=True,     
+# special_characters=True)  
+# graph = graphviz.Source(dot_data)  
+# graph

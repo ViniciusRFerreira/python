@@ -9,29 +9,35 @@ st.title('Vinicius') #Título para a página
 
 aptos = pd.read_csv('https://raw.githubusercontent.com/mvinoba/notebooks-for-binder/master/dados.csv')
 
-bairro = st.selectbox('Bairro desejado: ', ['Botafogo', 'Copacabana', 'Gávea','Grajaú','Ipanema','Leblon','Tijuca'])
+bairros = aptos['bairro'].unique()
+bairro = st.selectbox('Bairro desejado:', bairros)
 st.write('Bairro escolhido: ', bairro)
 
-bairro2 = aptos['bairro']==bairro
-i = bairro2['quartos'].min()
 
-quartos = st.slider('Número de quartos: ', i, 3, 2)
-st.write('Quantidade de quartos escolhidos: ',quartos)
+bairro2 = aptos[aptos['bairro']==bairro]
+
+min_quarto = int(bairro2['quartos'].min())
+max_quarto = int(bairro2['quartos'].max())
+meio_quarto = (max_quarto+min_quarto)//2
+quartos = st.slider('Número de quartos: ', min_quarto, max_quarto, meio_quarto)
+
+min_area = int(bairro2['area'].min())
+max_area = int(bairro2['area'].max())
+meio_area = (max_area+min_area)//2
+
+area = st.slider('Area: ', min_area, max_area, meio_area)
 
 
-
-area = st.slider('Area: ', j, 475, 237)
-st.write('Área escolhida: ',area)
+x = bairro2[['quartos','area']].values.reshape(-1,2)
+y = bairro2['preco'].values.flatten()
 
 rl = LinearRegression()
 
-x = aptos[['quartos','area']].values.reshape(-1,2)
-y = aptos['preco'].values.flatten()
 rl.fit(x,y)
 
-x = [[540],[35]]#Valor para a variável independente
+x = [[quartos],[area]]#Valor para a variável independente
 x_arr = np.array(x).reshape(-1,2) #prepara para o formato adequado
 y_pred  = rl.predict(x_arr) #calcula a predição
-st.write('Condominio, Area: ',x_arr.flatten())
+st.write(f'Quartos : ( {quartos} )')
+st.write(f'Area : ( {area} ) m²')
 st.write('Preço : ', y_pred.flatten())
-
