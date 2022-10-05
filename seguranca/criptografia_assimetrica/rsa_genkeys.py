@@ -20,8 +20,6 @@ def generate_keys(user, keysize):
     with open(FILE_PRIVATE_KEY, 'wb') as p:
         p.write(private_key.save_pkcs1("PEM"))
 
-    pass
-
 if __name__ == '__main__':
 
     #Default values
